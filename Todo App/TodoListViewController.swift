@@ -10,10 +10,16 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
+    let defaults = UserDefaults.standard
     var dummyArray = ["Buy Apples", "Meet someone", "Go to World Tour"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        if let items = defaults.array(forKey: "ToDoArray") as? [String]{
+            dummyArray = items
+        }
     }
     
     
@@ -53,6 +59,7 @@ class TodoListViewController: UITableViewController {
             
             // what will happen if user click + button
             self.dummyArray.append(textt.text!)
+            self.defaults.set(self.dummyArray, forKey: "ToDoArray")
             self.tableView.reloadData()
         }
         
