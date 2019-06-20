@@ -8,7 +8,8 @@
 
 import Foundation
 
-class ListObject{
+// Encodable and Decodable we can write Codable
+class ListObject : Codable{
     
     var title : String = ""
     var done: Bool = false
