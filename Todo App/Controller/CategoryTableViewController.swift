@@ -8,8 +8,10 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
-class CategoryTableViewController: UITableViewController {
+
+class CategoryTableViewController: SwipeTableViewController {
 
     let realm = try! Realm()
     
@@ -20,6 +22,14 @@ class CategoryTableViewController: UITableViewController {
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         loadData()
+        tableView.separatorStyle = .none
+        tableView.rowHeight = 80.0
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let navBar = navigationController?.navigationBar  {
+            navBar.barTintColor = UIColor(hexString: "1D9BF3")
+        }
     }
     
     
@@ -29,9 +39,12 @@ class CategoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
         
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No categories added yet!"
+       
+        cell.backgroundColor = UIColor(hexString: categoryArray?[indexPath.row].hexcode ?? "1D9BF3") 
+
         return cell
     }
     
@@ -63,7 +76,8 @@ class CategoryTableViewController: UITableViewController {
             // what will happen if user click + button
             let newItem = Category()
             newItem.name = textt.text!
-            
+            newItem.hexcode = UIColor.randomFlat.hexValue()
+        //    print(newItem.hexcode)
             self.saveData( category: newItem)
         }
         
@@ -96,6 +110,19 @@ class CategoryTableViewController: UITableViewController {
         categoryArray = realm.objects(Category.self)
 
         tableView.reloadData()
+    }
+    
+    override func updateModal(at indexPath: IndexPath) {
+           if let item = self.categoryArray?[indexPath.row]{
+                do{
+                    try self.realm.write {
+                    self.realm.delete(item)
+                   }
+                }catch{
+                    print("Error in saving done property \(error)")
+                }
+                            //tableView.reloadData()
+          }
     }
     
 }
