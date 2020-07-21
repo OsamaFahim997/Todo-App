@@ -19,6 +19,7 @@ class CategoryTableViewController: SwipeTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("UID is \(UIDevice.current.identifierForVendor!.uuidString)")
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         loadData()
@@ -28,7 +29,7 @@ class CategoryTableViewController: SwipeTableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         if let navBar = navigationController?.navigationBar  {
-            navBar.barTintColor = UIColor(hexString: "1D9BF3")
+            navBar.barTintColor = UIColor(hexString: "8186D5")
         }
     }
     
@@ -70,8 +71,8 @@ class CategoryTableViewController: SwipeTableViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
         var textt = UITextField()
-        let alert = UIAlertController(title: "Add new TODO Category", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Add category", style: .default) { (action) in
+        let alert = UIAlertController(title: "Add new Name", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add name", style: .default) { (action) in
             
             // what will happen if user click + button
             let newItem = Category()
@@ -82,7 +83,7 @@ class CategoryTableViewController: SwipeTableViewController {
         }
         
         alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Enter category"
+            alertTextField.placeholder = "Enter name"
             textt = alertTextField
         }
         alert.addAction(action)

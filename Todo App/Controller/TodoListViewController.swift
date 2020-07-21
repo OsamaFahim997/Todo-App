@@ -62,7 +62,6 @@ class TodoListViewController: SwipeTableViewController {
                 cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
 
             }
-
             //Ternary Operator => value = condition ? if true : if false
             cell.accessoryType = item.done ? .checkmark : .none
         }
